@@ -1,0 +1,34 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+
+# Инициализация драйвера браузера (Chrome)
+driver = webdriver.Chrome()
+
+# Открытие страницы с карточкой товара
+driver.get("ССЫЛКА_НА_ТОВАР")
+
+# Ждем, пока страница загрузится
+time.sleep(2)
+
+try:
+    # Проверка заголовка товара
+    product_title = driver.find_element(By.XPATH, "//h1").text
+    assert "ОЖИДАЕМЫЙ_ЗАГОЛОВОК_ТОВАРА" in product_title
+
+    # Проверка наличия кнопки "Добавить в корзину"
+    add_to_cart_button = driver.find_element(By.XPATH, "//button[contains(text(), 'Добавить в корзину')]")
+    assert add_to_cart_button.is_displayed()
+
+    # Проверка цены товара
+    product_price = driver.find_element(By.XPATH, "//span[@itemprop='price']").text
+    assert "ОЖИДАЕМАЯ_ЦЕНА" in product_price
+
+    # Другие проверки, которые необходимо выполнить
+
+    print("Все тесты на карточку товара пройдены успешно!")
+except AssertionError as e:
+    print("Тест на карточку товара не пройден:", e)
+
+# Закрытие браузера
+driver.quit()
